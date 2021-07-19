@@ -1,7 +1,6 @@
 package com.summit.dal;
 
 import com.summit.model.Reviews;
-import com.summit.model.Trails;
 import java.sql.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -173,16 +172,16 @@ public class ReviewsDao {
   }
 
 
-  public List<Reviews> getReviewsByRestaurantId(int restaurantId) throws SQLException {
+  public List<Reviews> getReviewsByTrailId(int trailId) throws SQLException {
     List<Reviews> reviews = new ArrayList<>();
-    String selectReview = "SELECT ReviewId,Created,VisitDate,Content,Rating,UserName,TrailId FROM reviews WHERE RestaurantId=?;";
+    String selectReview = "SELECT ReviewId,Created,VisitDate,Content,Rating,UserName,TrailId FROM reviews WHERE TrailId=?;";
     Connection connection = null;
     PreparedStatement selectStmt = null;
     ResultSet results = null;
     try {
       connection = connectionManager.getConnection();
       selectStmt = connection.prepareStatement(selectReview);
-      selectStmt.setInt(1, restaurantId);
+      selectStmt.setInt(1, trailId);
       // Note that we call executeQuery(). This is used for a SELECT statement
       // because it returns a result set. For more information, see:
       // http://docs.oracle.com/javase/7/docs/api/java/sql/PreparedStatement.html
@@ -192,15 +191,14 @@ public class ReviewsDao {
       // the first record). The cursor is initially positioned before the row.
       // Furthermore, you can retrieve fields by name and by type.
       while(results.next()) {
-        Integer resultReviewId = results.getInt("ReviewId");
+        Integer reviewId = results.getInt("ReviewId");
         Timestamp created = results.getTimestamp("Created");
         Date visitDate = results.getDate("VisitDate");
         String content = results.getString("Content");
         Double rating = results.getDouble("Rating");
         String username = results.getString("UserName");
-        Integer trailId = results.getInt("TrailId");
 
-        reviews.add(new Reviews(resultReviewId,created,content,rating,UsersDao.getInstance().getUserByUserName(username),visitDate,TrailsDao.getInstance().getTrailsById(trailId)));
+        reviews.add(new Reviews(reviewId,created,content,rating,UsersDao.getInstance().getUserByUserName(username),visitDate,TrailsDao.getInstance().getTrailsById(trailId)));
       }
       return reviews;
     } catch (SQLException e) {

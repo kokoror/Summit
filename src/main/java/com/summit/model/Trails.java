@@ -20,13 +20,33 @@ public class Trails {
     public final String level;
 
     DifficultyLevel(String level) {
-      this.level = level;
+      this.level = level;  
     }
+    ///added 
+    public static DifficultyLevel fromString(String level) {
+        for (DifficultyLevel d : DifficultyLevel.values()) {
+            if (d.level.equalsIgnoreCase(level)) {
+                return d;
+            }
+        }
+        return null;
+    }
+    
   }
+  
+  
     public enum RouteType{ OUTBACK("OUT AND BACK"), P2P("POINT TO POINT"), LOOP("LOOP");
       public final String type;
       RouteType(String type) {
         this.type = type;
+      }
+      public static RouteType fromString(String type) {
+          for (RouteType r : RouteType.values()) {
+              if (r.type.equalsIgnoreCase(type)) {
+                  return r;
+              }
+          }
+          return null;
       }
     }
 

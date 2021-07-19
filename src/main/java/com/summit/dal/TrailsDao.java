@@ -1,7 +1,6 @@
 package com.summit.dal;
 
 import com.summit.model.Trails;
-import com.summit.model.Users;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -148,7 +147,7 @@ public class TrailsDao {
         Double elevationGain = results.getDouble("ElevationGain");
         String difficulty = results.getString("Difficulty");
         String routeType = results.getString("RouteType");
-        Trails trail = new Trails(resultTrailId,trailName,area,city,state,country,latitude,longitude,elevationGain,Trails.DifficultyLevel.valueOf(difficulty),Trails.RouteType.valueOf(routeType));
+        Trails trail = new Trails(resultTrailId,trailName,area,city,state,country,latitude,longitude,elevationGain,Trails.DifficultyLevel.fromString(difficulty),Trails.RouteType.fromString(routeType));
         return trail;
       }
     } catch (SQLException e) {

@@ -1,14 +1,22 @@
-//Submitted by : Shweta Mandavgane
+
 package com.summit.tools;
 
 import com.summit.dal.ActivitiesDao;
 import com.summit.dal.FeaturesDao;
+import com.summit.dal.InterestedActivitiesDao;
+import com.summit.dal.PreferredFeaturesDao;
 import com.summit.dal.ReviewsDao;
+import com.summit.dal.TrailActivitiesDao;
+import com.summit.dal.TrailFeaturesDao;
 import com.summit.dal.TrailsDao;
 import com.summit.dal.UsersDao;
 import com.summit.model.Activities;
 import com.summit.model.Features;
+import com.summit.model.InterestedActivities;
+import com.summit.model.PreferredFeatures;
 import com.summit.model.Reviews;
+import com.summit.model.TrailActivities;
+import com.summit.model.TrailFeatures;
 import com.summit.model.Trails;
 import com.summit.model.Trails.DifficultyLevel;
 import com.summit.model.Trails.RouteType;
@@ -29,7 +37,11 @@ public class Inserter {
 		ReviewsDao reviewsDao = ReviewsDao.getInstance();
 		ActivitiesDao activitiesDao = ActivitiesDao.getInstance();
 		FeaturesDao featuresDao = FeaturesDao.getInstance();
-
+		TrailFeaturesDao trailFeaturesDao = TrailFeaturesDao.getInstance();
+		TrailActivitiesDao trailActivitiesDao = TrailActivitiesDao.getInstance();
+		PreferredFeaturesDao preferredFeaturesDao = PreferredFeaturesDao.getInstance();
+		InterestedActivitiesDao interestedActivitiesDao = InterestedActivitiesDao.getInstance();
+		
 		//CREATE
 		//Users
 		Users user = new Users("myuser120012","MSD", "Seattle","WA","USA");
@@ -75,281 +87,133 @@ public class Inserter {
 		Features feature = new Features("River");
 		feature = featuresDao.create(feature);
 		Features feature1 = new Features("Dog");
-		feature = featuresDao.create(feature1);
+		feature1 = featuresDao.create(feature1);
 		Features feature2 = new Features("Water Fall");
-		feature = featuresDao.create(feature2);
+		feature2 = featuresDao.create(feature2);
 		
+		//TrailFeatures
+		TrailFeatures trailFeature = new TrailFeatures(trail, feature);
+		trailFeature = trailFeaturesDao.create(trailFeature);
+		TrailFeatures trailFeature1 = new TrailFeatures(trail, feature1);
+		trailFeature1 = trailFeaturesDao.create(trailFeature1);
+		TrailFeatures trailFeature2 = new TrailFeatures(trail1, feature1);
+		trailFeature2 = trailFeaturesDao.create(trailFeature2);
+		TrailFeatures trailFeature3 = new TrailFeatures(trail1, feature2);
+		trailFeature3 = trailFeaturesDao.create(trailFeature3);
+		TrailFeatures trailFeature4 = new TrailFeatures(trail2, feature);
+		trailFeature4 = trailFeaturesDao.create(trailFeature4);
+		
+		//trailActivities
+		TrailActivities trailActivity = new TrailActivities(trail, activity);
+		trailActivity = trailActivitiesDao.create(trailActivity);
+		TrailActivities trailActivity1 = new TrailActivities(trail, activity1);
+		trailActivity1 = trailActivitiesDao.create(trailActivity1);
+		TrailActivities trailActivity2 = new TrailActivities(trail1, activity1);
+		trailActivity2 = trailActivitiesDao.create(trailActivity2);
+		TrailActivities trailActivity3 = new TrailActivities(trail1, activity2);
+		trailActivity3 = trailActivitiesDao.create(trailActivity3);
+		TrailActivities trailActivity4 = new TrailActivities(trail2, activity);
+		trailActivity4 = trailActivitiesDao.create(trailActivity4);
+		
+		//preferredFeatures
+		PreferredFeatures preferredFeature = new PreferredFeatures(user, feature);
+		preferredFeature = preferredFeaturesDao.create(preferredFeature);
+		PreferredFeatures preferredFeature1 = new PreferredFeatures(user, feature1);
+		preferredFeature1 = preferredFeaturesDao.create(preferredFeature1);
+		PreferredFeatures preferredFeature2 = new PreferredFeatures(user1, feature1);
+		preferredFeature2 = preferredFeaturesDao.create(preferredFeature2);
+		PreferredFeatures preferredFeature3 = new PreferredFeatures(user1, feature2);
+		preferredFeature3 = preferredFeaturesDao.create(preferredFeature3);
+		PreferredFeatures preferredFeature4 = new PreferredFeatures(user2, feature);
+		preferredFeature4 = preferredFeaturesDao.create(preferredFeature4);
+		
+		//InterestedActivities
+		InterestedActivities interestedActivity = new InterestedActivities(user, activity);
+		interestedActivity = interestedActivitiesDao.create(interestedActivity);
+		InterestedActivities interestedActivity1 = new InterestedActivities(user, activity1);
+		interestedActivity = interestedActivitiesDao.create(interestedActivity1);
+		InterestedActivities interestedActivity2 = new InterestedActivities(user1, activity1);
+		interestedActivity = interestedActivitiesDao.create(interestedActivity2);
+		InterestedActivities interestedActivity3 = new InterestedActivities(user1, activity2);
+		interestedActivity = interestedActivitiesDao.create(interestedActivity3);
+		InterestedActivities interestedActivity4 = new InterestedActivities(user2, activity);
+		interestedActivity = interestedActivitiesDao.create(interestedActivity4);
 		
 		//READ
 		
-
-		/*long millis = System.currentTimeMillis();
-		Date date = new Date(millis);
-
-		//CreditCards
-		CreditCards creditCard = new CreditCards(3435465634547788L, new Date(millis), user);
-		creditCard = creditCardsDao.create(creditCard);
-		CreditCards creditCard1 = new CreditCards(3435465634547678L, new Date(millis), user);
-		creditCard1 = creditCardsDao.create(creditCard1);
-		CreditCards creditCard2 = new CreditCards(3435465634547546L, new Date(millis), user1);
-		creditCard2 = creditCardsDao.create(creditCard2);
-
-		//Companies
-		Companies company = new Companies("company", "about company");
-		company = companiesDao.create(company);
-		Companies company1 = new Companies("company1", "about company1");
-		company1 = companiesDao.create(company1);
-		Companies company2 = new Companies("company2", "about company2");
-		company2 = companiesDao.create(company2);
-
-		//Restaurants
-		Restaurants restaurant = new Restaurants(
-				"restaurant", "description1", "menu1", "hours1", true,
-				Restaurants.CuisineType.AMERICAN,"stree1", "street2", "city", "state", 98000, company);
-		restaurant = restaurantDao.create(restaurant);
-		Restaurants restaurant1 = new Restaurants(
-				"restaurant1", "description1", "menu1", "hours1", true,Restaurants.CuisineType.ASIAN,
-				"stree1", "street2", "city", "state", 98000, company);
-		restaurant1 = restaurantDao.create(restaurant1);
-		Restaurants restaurant2 = new Restaurants(
-				"restaurant2", "description1", "menu1", "hours1", true, Restaurants.CuisineType.AMERICAN,
-				"stree1", "street2", "city", "state", 98000, company );
-		restaurant2 = restaurantDao.create(restaurant2);
-
-		//SitDownRestaurants
-		SitDownRestaurant sitDown2 = new SitDownRestaurant("restaurant", "description1", "menu1", "hours1", true,
-				Restaurants.CuisineType.AMERICAN, "stree1", "street2", "city", "state", 98000, company, 10
-		);
-		sitDown2 = sitDownDao.create(sitDown2);
-
-		SitDownRestaurant sitDown = new SitDownRestaurant("restaurant4", "description14", "menu14", "hours14", true,
-				Restaurants.CuisineType.AMERICAN, "stree1", "street2", "city", "state", 98000, company, 10
-		);
-		sitDown = sitDownDao.create(sitDown);
-
-		//TakeOutRestaurants
-		TakeoutRestaurant takeOut = new TakeoutRestaurant(5, "restaurant5", "description1", "menu1",
-				"hours1", true,
-				Restaurants.CuisineType.ASIAN, "stree1", "street2", "city", "state", 98000, company, 30);
-		takeOut = takeOutDao.create(takeOut);
-
-		//FoodCartRestaurants
-		FoodCartRestaurant foodCart = new FoodCartRestaurant("restaurant6", "description1", "menu1",
-				"hours1", true,
-				Restaurants.CuisineType.AFRICAN, "stree1", "street2", "city", "state", 98000, company,
-				true);
-		foodCart = foodCartDao.create(foodCart);
-
-
-		//Recommendations
-		Recommendations recommendation = new Recommendations(user, restaurant);
-		recommendation = recDao.create(recommendation);
-		Recommendations recommendation1 = new Recommendations(user1, restaurant);
-		recommendation1 = recDao.create(recommendation1);
-		Recommendations recommendation2 = new Recommendations(user2, restaurant);
-		recommendation2 = recDao.create(recommendation2);
-
-		//Reservations
-		Reservations reservation = new Reservations(date, date, 10, user, sitDown2);
-		reservation = resDao.create(reservation);
-		Reservations reservation1 = new Reservations(date, date, 12, user1, sitDown);
-		reservation1 = resDao.create(reservation1);
-		Reservations reservation2 = new Reservations(date, date, 10, user2, sitDown);
-		reservation2 = resDao.create(reservation2);
-
-		//READ
-		//Users
-		Users u1 = usersDao.getUserByUserName("user1");
-		System.out.format("1. Read user by user name:  "
-						+ "username: %s firstName: %s lastName: %s password: %s phoneNumber :%s email: %s \n",
-				u1.getUsername(), u1.getFirstname(), u1.getLastname(),
-				u1.getPassword(), u1.getPhone(), u1.getEmail());
-
-		//CreditCards
-		CreditCards c1 = creditCardsDao.getCreditCardByCardNumber(3435465634547788L);
-		System.out
-				.format("2. Read credit card:  cardNumber:%s date:%s username:%s \n", c1.getCardnumber(),
-						c1.getExpirationDate(), c1.getUser().getUsername());
-
-		List<CreditCards> cList1 = creditCardsDao.getCreditCardsByUserName("user1");
-		for (CreditCards c : cList1) {
-			System.out.format("3. Looping credit cards by userName: cardNumber:%s date:%s userName:%s \n",
-					c.getCardnumber(), c.getExpirationDate(), c.getUser().getUsername());
+		//TrailFeatures
+		TrailFeatures tf = trailFeaturesDao.getTrailFeatureById(1);
+		System.out.format("Reading trailFeature1: id:%d, trail:%s, feature:%s \n", tf.getTrailFeatureId(), tf.getTrail().getTrailName(),tf.getFeature().getFeatureTag());
+		
+		List<TrailFeatures> tfs = trailFeaturesDao.getTrailFeatureByFeatureId(1);
+		for (TrailFeatures t: tfs) {
+			System.out.format("Looping trailFeatures by featureId: id:%d, trail:%s, feature:%s \n", t.getTrailFeatureId(), t.getTrail().getTrailName(),t.getFeature().getFeatureTag());
 		}
-
-		//Companies
-		Companies co1 = companiesDao.getCompanyByCompanyName("company1");
-		System.out.format("4. Read company by companyName: name:%s about:%s \n", co1.getCompanyName(),
-				co1.getAbout());
-
-		//Restaurants
-		Restaurants r1 = restaurantDao.getRestaurantById(1);
-		System.out.format("5. Read restaurant by restaurantId: name:%s description:%s hours:%s"
-						+ "city:%s menu:%s company%s cuisineType:%s zip%d street2%s street1%s "
-						+ "state%s id%d \n",
-				r1.getName(), r1.getDescription(), r1.getHours(), r1.getCity(), r1.getMenu(),
-				r1.getCompany().getCompanyName(), r1.getCuisine().name(), r1.getZip(),
-				r1.getStreet2(), r1.getStreet1(), r1.getState(),
-				r1.getRestaurantId());
-
-		//Enum constant error
-
-		List<Restaurants> rList1 = restaurantDao.getRestaurantsByCompanyName("company");
-		for (Restaurants r : rList1) {
-			System.out.format("6. Looping restaurants from company name: name:%s id:%d "
-							+ "company:%s description:%s cuisineType:%s state:%s \n",
-					r.getName(), r.getRestaurantId(), r.getCompany().getCompanyName(),
-					r.getDescription(), r.getCuisine().name(), r.getState());
+		
+		List<TrailFeatures> tfs2 = trailFeaturesDao.getTrailFeatureByTrailId(2);
+		for (TrailFeatures t: tfs2) {
+			System.out.format("Looping trailFeatures by trailId: id:%d, trail:%s, feature:%s \n", t.getTrailFeatureId(), t.getTrail().getTrailName(),t.getFeature().getFeatureTag());
 		}
-
-		List<Restaurants> rList2 = restaurantDao
-				.getRestaurantsByCuisine(Restaurants.CuisineType.AMERICAN);
-		for (Restaurants r : rList2) {
-			System.out.format("7. Looping restaurants from cuisine type: name:%s id:%d company:%s"
-							+ "description:%s cuisineType:%s state:%s \n",
-					r.getName(), r.getRestaurantId(), r.getCompany().getCompanyName(),
-					r.getDescription(), r.getCuisine(), r.getState());
+		
+		//TrailActivities
+		TrailActivities ta = trailActivitiesDao.getTrailActivityById(1);
+		System.out.format("Reading trailActivity1: id:%d, trail:%s, activity:%s \n", ta.getTrailActivityId(), ta.getTrail().getTrailName(), ta.getActivity().getActivityTag());
+		
+		List<TrailActivities> tas = trailActivitiesDao.getTrailActivityByActivityId(1);
+		for (TrailActivities t: tas) {
+			System.out.format("Looping trailActivities by activityId: id:%d, trail:%s, activity:%s \n", t.getTrailActivityId(), t.getTrail().getTrailName(),t.getActivity().getActivityTag());
 		}
-
-		//SitDownRestaurants
-		SitDownRestaurant sd1 = sitDownDao.getSitDownRestaurantById(4);
-		System.out.format("8. Reading sit down restaurant by ID: name:%s company:%s description:%s"
-						+ "id:%d capacity:%d \n", sd1.getName(), sd1.getCompany().getCompanyName(),
-				sd1.getDescription(), sd1.getRestaurantId(), sd1.getCapacity());
-
-		List<SitDownRestaurant> sdList1 = sitDownDao.getSitDownRestaurantsByCompanyName("company");
-		for (SitDownRestaurant sd : sdList1) {
-			System.out
-					.format("9. Looping sit down restaurants from company name: name:%s capacity:%d id:%d "
-									+ "company:%s description:%s cuisineType:%s state:%s \n",
-							sd.getName(), sd.getCapacity(), sd.getRestaurantId(),
-							sd.getCompany().getCompanyName(),
-							sd.getDescription(), sd.getCuisine(), sd.getState());
+		
+		List<TrailActivities> tas2 = trailActivitiesDao.getTrailActivityByTrailId(2);
+		for (TrailActivities t: tas2) {
+			System.out.format("Looping trailActivities by trailId: id:%d, trail:%s, activity:%s \n", t.getTrailActivityId(), t.getTrail().getTrailName(),t.getActivity().getActivityTag());
 		}
-
-		//TakeOutRestaurants
-		TakeoutRestaurant to1 = takeOutDao.getTakeOutRestaurantById(6);
-		System.out.format(
-				"10. Reading take out by ID: name:%s company:%s description:%s ID:%d maxWaitTime:%d \n",
-				to1.getName(), to1.getCompany().getCompanyName(),
-				to1.getDescription(), to1.getRestaurantId(), to1.getMaxWaitTime());
-
-		List<TakeoutRestaurant> toList1 = takeOutDao.getTakeOutRestaurantsByCompanyName("company");
-		for (TakeoutRestaurant to : toList1) {
-			System.out.format(
-					"11. Looping takeout restaurants from company name: name:%s maxWaitTime:%d ID:%d companyName:%s description:%s cuisineType:%s state:%s \n",
-					to.getName(), to.getMaxWaitTime(), to.getRestaurantId(), to.getCompany().getCompanyName(),
-					to.getDescription(), to.getCuisine(), to.getState());
+		
+		//PreferredFeatures
+		PreferredFeatures pf = preferredFeaturesDao.getPreferredFeatureById(1);
+		System.out.format("Reading preferredFeature1: id:%d, userName:%s, feature:%s \n", pf.getPreferredFeatureId(), pf.getUserName().getUsername(), pf.getFeature().getFeatureTag());
+		
+		List<PreferredFeatures> pfs = preferredFeaturesDao.getPreferredFeatureByFeatureId(1);
+		for (PreferredFeatures p: pfs) {
+			System.out.format("Looping preferredFeature by feature id: id:%d, userName:%s, feature:%s \n", p.getPreferredFeatureId(), p.getUserName().getUsername(), p.getFeature().getFeatureTag());
 		}
-
-		//FoodCartRestaurants
-		FoodCartRestaurant fc1 = foodCartDao.getFoodCartRestaurantById(7);
-		System.out.format(
-				"12. Reading food cart restaurant by ID: name:%s companyName:%s description:%s ID:%d isLicensed:%s \n",
-				fc1.getName(), fc1.getCompany().getCompanyName(),
-				fc1.getDescription(), fc1.getRestaurantId(), fc1.getLicensed());
-
-		List<FoodCartRestaurant> fcList1 = foodCartDao.getFoodCartRestaurantsByCompanyName("company");
-		for (FoodCartRestaurant fc : fcList1) {
-			System.out.format(
-					"13. Looping food cart restaurants from company name: name:%s isLicensed:%s ID:%d companyName:%s description:%s cuisineType:%s state:%s \n",
-					fc.getName(), fc.getLicensed(), fc.getRestaurantId(), fc.getCompany().getCompanyName(),
-					fc.getDescription(), fc.getCuisine(), fc.getState());
+		
+		List<PreferredFeatures> pfs2 = preferredFeaturesDao.getPreferredFeatureByUserName("myuser120012");
+		for (PreferredFeatures p: pfs2) {
+			System.out.format("Looping preferredFeature by feature id: id:%d, userName:%s, feature:%s \n", p.getPreferredFeatureId(), p.getUserName().getUsername(), p.getFeature().getFeatureTag());
 		}
-
-		//Reviews
-		Reviews rev1 = reviewsDao.getReviewById(1);
-		System.out.format(
-				"14. Reading review by ID: ID:%d content:%s createdAt:%s rating:%s restaurantName:%s userName:%s \n",
-				rev1.getReviewId(), rev1.getContent(),
-				rev1.getCreated(), rev1.getRating(), rev1.getRestaurants().getName(),
-				rev1.getUser().getUsername());
-
-		List<Reviews> revList1 = reviewsDao.getReviewsByRestaurantId(1);
-		for (Reviews rev : revList1) {
-			System.out.format(
-					"15. Looping reviews by restaurantId: ID:%d content:%s createdAt:%s rating:%s restaurantName:%s userName:%s \n",
-					rev.getReviewId(), rev.getContent(),
-					rev.getCreated(), rev.getRating(), rev.getRestaurants().getName(),
-					rev.getUser().getUsername());
+		
+		//InterestedActivities
+		InterestedActivities ia = interestedActivitiesDao.getInterestedActivityById(1);
+		System.out.format("Reading interestedActivity1 id:%d, userName:%s, activity:%s",ia.getFavoriteActivityId(), ia.getUserName().getUsername(), ia.getActivity().getActivityTag());
+		
+		List<InterestedActivities> ias = interestedActivitiesDao.getInterestedActivityByActivityId(1);
+		for (InterestedActivities i: ias) {
+			System.out.format("Looping InterestedActivities by activityId: id:%d, userName:%s, activity:%s \n", i.getFavoriteActivityId(), i.getUserName().getUsername(), i.getActivity().getActivityTag());
 		}
-
-		List<Reviews> revList2 = reviewsDao.getReviewsByUserName("user1");
-		for (Reviews rev : revList2) {
-			System.out.format(
-					"16. Looping reviews by username: ID:%d content:%s createdAt:%s restaurantName:%s userName:%s \n",
-					rev.getReviewId(), rev.getContent(),
-					rev.getCreated(), rev.getRestaurants().getName(), rev.getUser().getUsername());
+		
+		List<InterestedActivities> ias2 = interestedActivitiesDao.getInterestedActivityByUserName("myuser120012");
+		for (InterestedActivities i: ias2) {
+			System.out.format("Looping InterestedActivities by activity id: id:%d, userName:%s, activity:%s \n", i.getFavoriteActivityId(), i.getUserName().getUsername(), i.getActivity().getActivityTag());
 		}
+		
 
-		//Recommendations
-		Recommendations rec1 = recDao.getRecommendationById(1);
-		System.out.format("17. Reading recommendations by ID: ID:%d restaurantName:%s userName:%s \n",
-				rec1.getRecommendationId(), rec1.getRestaurants().getName(), rec1.getUser().getUsername());
-
-		List<Recommendations> recList1 = recDao.getRecommendationsByRestaurantId(1);
-		for (Recommendations rec : recList1) {
-			System.out.format(
-					"18. Looping recommendations by restaurant ID:  ID:%d restaurantName:%s userName:%s \n",
-					rec.getRecommendationId(), rec1.getRestaurants().getName(), rec1.getUser().getUsername());
-		}
-
-		List<Recommendations> recList2 = recDao.getRecommendationsByUserName("user1");
-		for (Recommendations rec : recList2) {
-			System.out.format(
-					"19. Looping recommendations by username:  ID:%d restaurantName:%s userName:%s \n",
-					rec.getRecommendationId(), rec1.getRestaurants().getName(), rec1.getUser().getUsername());
-		}
-
-		//Reservations
-		Reservations res1 = resDao.getReservationById(1);
-		System.out.format(
-				"20. Reading reservations by ID: startTime:%s endTime:%s restaurantName:%s size:%d userName:%s reservationId:%d \n",
-				res1.getStart(), res1.getEnd(),
-				res1.getRestaurant().getName(), res1.getSize(), res1.getUser().getUsername(),
-				res1.getReservationId());
-
-		List<Reservations> resList1 = resDao.getReservationsBySitDownRestaurantId(1);
-		for (Reservations res : resList1) {
-			System.out.format(
-					"21. Looping reservations by restaurant id: startTime:%s endTime:%s reservationID:%d restaurant:%s size:%d userName:%s \n",
-					res.getStart(), res.getEnd(),
-					res.getReservationId(), res.getRestaurant().getName(), res.getSize(),
-					res.getUser().getUsername());
-		}
-
-		List<Reservations> resList2 = resDao.getReservationsByUserName("user1");
-		for (Reservations res : resList2) {
-			System.out.format(
-					"22. Looping reservations by username: startTime:%s endTime:%s reservationID:%d restaurant:%s size:%d userName:%s \n",
-					res.getStart(),
-					res.getEnd(), res.getReservationId(), res.getRestaurant().getName(), res.getSize(),
-					res.getUser().getUsername());
-		}
-
-		//UPDATE
-		//CreditCards - update expiration date
-		CreditCards c2 = creditCardsDao.updateExpiration(creditCard2, new Date(millis));
-		System.out
-				.format("23. Reading credit card with updated date cardNumber:%s date:%s username:%s \n",
-						c2.getCardnumber(), c2.getExpirationDate(), c2.getUser().getUsername());
-
-		//Companies - update about
-		Companies co2 = companiesDao.updateAbout(company2, "new about for company 2");
-		System.out.format("24. Reading company with updated about : about:%s companyName:%s	 \n",
-				co2.getAbout(), co2.getCompanyName());
-
-		//DELETE
-		//Exercising in reverse preferential order i.e users last.
-		resDao.delete(reservation2);
-		recDao.delete(recommendation2);
-		reviewsDao.delete(review2);
-		foodCartDao.delete(fc1);
-		takeOutDao.delete(to1);
-		sitDownDao.delete(sd1);
-		restaurantDao.delete(restaurant);
-		companiesDao.delete(company1);
-		creditCardsDao.delete(creditCard);*/
+//		//UPDATE
+//		//CreditCards - update expiration date
+//		CreditCards c2 = creditCardsDao.updateExpiration(creditCard2, new Date(millis));
+//		System.out
+//				.format("23. Reading credit card with updated date cardNumber:%s date:%s username:%s \n",
+//						c2.getCardnumber(), c2.getExpirationDate(), c2.getUser().getUsername());
+//
+//		//Companies - update about
+//		Companies co2 = companiesDao.updateAbout(company2, "new about for company 2");
+//		System.out.format("24. Reading company with updated about : about:%s companyName:%s	 \n",
+//				co2.getAbout(), co2.getCompanyName());
+		
+		preferredFeaturesDao.delete(preferredFeature4);
+		interestedActivitiesDao.delete(interestedActivity4);
+		trailActivitiesDao.delete(trailActivity4);
+		trailFeaturesDao.delete(trailFeature4);
 		usersDao.delete(user3);
 		
 		activitiesDao.delete(activity1);

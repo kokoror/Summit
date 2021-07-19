@@ -8,29 +8,29 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.summit.model.Features;
-import com.summit.model.TrailFeatures;
+import com.summit.model.Activities;
+import com.summit.model.TrailActivities;
 import com.summit.model.Trails;
 
 
-public class TrailFeaturesDao {
+public class TrailActivitiesDao {
 	protected ConnectionManager connectionManager;
 
-	private static TrailFeaturesDao instance = null;
-	protected TrailFeaturesDao() {
+	private static TrailActivitiesDao instance = null;
+	protected TrailActivitiesDao() {
 		connectionManager = new ConnectionManager();
 	}
-	public static TrailFeaturesDao getInstance() {
+	public static TrailActivitiesDao getInstance() {
 		if(instance == null) {
-			instance = new TrailFeaturesDao();
+			instance = new TrailActivitiesDao();
 		}
 		return instance;
 	}
 	
 
-	public TrailFeatures create(TrailFeatures trailFeature) throws SQLException {
-		String insertTrailFeature =
-				"INSERT INTO TrailFeatures(TrailId,FeatureId) " +
+	public TrailActivities create(TrailActivities trailActivity) throws SQLException {
+		String insertTrailActivity =
+				"INSERT INTO TrailActivities(TrailId,ActivityId) " +
 				"VALUES(?,?);";
 			Connection connection = null;
 			PreparedStatement insertStmt = null;
@@ -38,24 +38,24 @@ public class TrailFeaturesDao {
 
 			try {
 				connection = connectionManager.getConnection();
-				insertStmt = connection.prepareStatement(insertTrailFeature,
+				insertStmt = connection.prepareStatement(insertTrailActivity,
 						Statement.RETURN_GENERATED_KEYS);
 				
-				insertStmt.setInt(1, trailFeature.getTrail().getTrailId());
-				insertStmt.setInt(2, trailFeature.getFeature().getFeatureId());
+				insertStmt.setInt(1, trailActivity.getTrail().getTrailId());
+				insertStmt.setInt(2, trailActivity.getActivity().getActivityId());
 
 				insertStmt.executeUpdate();
 				
 				resultKey = insertStmt.getGeneratedKeys();
-				int trailFeatureId = -1;
+				int trailActivityId = -1;
 				if(resultKey.next()) {
-					trailFeatureId = resultKey.getInt(1);
+					trailActivityId = resultKey.getInt(1);
 				} else {
 					throw new SQLException("Unable to retrieve auto-generated key.");
 				}
 				
-				trailFeature.setTrailFeatureId(trailFeatureId);;
-				return trailFeature;
+				trailActivity.setTrailActivityId(trailActivityId);;
+				return trailActivity;
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -70,34 +70,35 @@ public class TrailFeaturesDao {
 			}
 		}
 	
-	public TrailFeatures getTrailFeatureById(int trailFeatureId) throws SQLException {
-		String selectTrailFeature =
-				"SELECT TrailFeatureId,TrailId,FeatureId " +
-				"FROM TrailFeatures " +
-				"WHERE TrailFeatureId=?;";
+	public TrailActivities getTrailActivityById(int trailActivityId) throws SQLException {
+		String selectTrailActivity =
+				"SELECT TrailActivityId,TrailId,ActivityId " +
+				"FROM TrailActivities " +
+				"WHERE TrailActivityId=?;";
 			Connection connection = null;
 			PreparedStatement selectStmt = null;
 			ResultSet results = null;
 			try {
 				connection = connectionManager.getConnection();
-				selectStmt = connection.prepareStatement(selectTrailFeature);
+				selectStmt = connection.prepareStatement(selectTrailActivity);
 				
-				selectStmt.setInt(1, trailFeatureId);
+				selectStmt.setInt(1, trailActivityId);
 				results = selectStmt.executeQuery();
 				
 				TrailsDao trailsDao = TrailsDao.getInstance();
-				FeaturesDao featuresDao = FeaturesDao.getInstance();
+				ActivitiesDao activitiesDao = ActivitiesDao.getInstance();
 
 				if(results.next()) {
 					int trailId = results.getInt("TrailId");
-					int featureId = results.getInt("FeatureId");
+					int activityId = results.getInt("ActivityId");
 					
 					Trails trail = trailsDao.getTrailsById(trailId);
-					Features feature = featuresDao.getFeatureById(featureId);
+					Activities activity = activitiesDao.getActivityById(activityId);
+			
 					
-					TrailFeatures trailFeature = new TrailFeatures(trailFeatureId, trail, feature);
+					TrailActivities trailActivity = new TrailActivities(trailActivityId, trail, activity);
 					
-					return trailFeature;
+					return trailActivity;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -119,39 +120,38 @@ public class TrailFeaturesDao {
 	
 
 	
-	public List<TrailFeatures> getTrailFeatureByTrailId(int trailId) throws SQLException {
+	public List<TrailActivities> getTrailActivityByTrailId(int trailId) throws SQLException {
 		
-		List<TrailFeatures> trailFeatures = new ArrayList<TrailFeatures>();
-		String selectRTrailFeature =
-				"SELECT TrailFeatureId,TrailId,FeatureId " +
-				"FROM TrailFeatures " +
+		List<TrailActivities> trailActivities = new ArrayList<TrailActivities>();
+		String selectTrailActivity =
+				"SELECT TrailActivityId,TrailId,ActivityId " +
+				"FROM TrailActivities " +
 				"WHERE TrailId=?;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
 		try {
 			connection = connectionManager.getConnection();
-			selectStmt = connection.prepareStatement(selectRTrailFeature);
+			selectStmt = connection.prepareStatement(selectTrailActivity);
 			
 			selectStmt.setInt(1, trailId);
 			results = selectStmt.executeQuery();
 			
 			TrailsDao trailsDao = TrailsDao.getInstance();
-			FeaturesDao featuresDao = FeaturesDao.getInstance();
-					
-			
+			ActivitiesDao activitiesDao = ActivitiesDao.getInstance();
+		
 			while(results.next()) {
-				
-				int trailFeatrueId = results.getInt("TrailFeatureId");
+				int trailActivityId = results.getInt("TrailActivityId");
 				int resultTrailId = results.getInt("TrailId");
-				int featureId = results.getInt("FeatureId");
+				int activityId = results.getInt("ActivityId");
 				
 				Trails trail = trailsDao.getTrailsById(resultTrailId);
-				Features feature = featuresDao.getFeatureById(featureId);
+				Activities activity = activitiesDao.getActivityById(activityId);
+		
 				
-				TrailFeatures trailFeature = new TrailFeatures(trailFeatrueId, trail, feature);
+				TrailActivities trailActivity = new TrailActivities(trailActivityId, trail, activity);
 
-				trailFeatures.add(trailFeature);
+				trailActivities.add(trailActivity);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -167,42 +167,42 @@ public class TrailFeaturesDao {
 				results.close();
 			}
 		}
-		return trailFeatures;
+		return trailActivities;
 	}
 	
-	public List<TrailFeatures> getTrailFeatureByFeatureId(int featureId) throws SQLException {
+	
+	public List<TrailActivities> getTrailActivityByActivityId(int activityId) throws SQLException {
 		
-		List<TrailFeatures> trailFeatures = new ArrayList<TrailFeatures>();
-		String selectRTrailFeature =
-				"SELECT TrailFeatureId,TrailId,FeatureId " +
-				"FROM TrailFeatures " +
-				"WHERE FeatureId=?;";
+		List<TrailActivities> trailActivities = new ArrayList<TrailActivities>();
+		String selectTrailActivity =
+				"SELECT TrailActivityId,TrailId,ActivityId " +
+				"FROM TrailActivities " +
+				"WHERE ActivityId=?;";
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
 		ResultSet results = null;
 		try {
 			connection = connectionManager.getConnection();
-			selectStmt = connection.prepareStatement(selectRTrailFeature);
+			selectStmt = connection.prepareStatement(selectTrailActivity);
 			
-			selectStmt.setInt(1, featureId);
+			selectStmt.setInt(1, activityId);
 			results = selectStmt.executeQuery();
 			
 			TrailsDao trailsDao = TrailsDao.getInstance();
-			FeaturesDao featuresDao = FeaturesDao.getInstance();
-					
-			
+			ActivitiesDao activitiesDao = ActivitiesDao.getInstance();
+		
 			while(results.next()) {
-				
-				int trailFeatrueId = results.getInt("TrailFeatureId");
+				int trailActivityId = results.getInt("TrailActivityId");
 				int trailId = results.getInt("TrailId");
-				int resultFeatureId = results.getInt("FeatureId");
+				int resultActivityId = results.getInt("ActivityId");
 				
 				Trails trail = trailsDao.getTrailsById(trailId);
-				Features feature = featuresDao.getFeatureById(resultFeatureId);
+				Activities activity = activitiesDao.getActivityById(resultActivityId);
+		
 				
-				TrailFeatures trailFeature = new TrailFeatures(trailFeatrueId, trail, feature);
+				TrailActivities trailActivity = new TrailActivities(trailActivityId, trail, activity);
 
-				trailFeatures.add(trailFeature);
+				trailActivities.add(trailActivity);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -218,19 +218,18 @@ public class TrailFeaturesDao {
 				results.close();
 			}
 		}
-		return trailFeatures;
+		return trailActivities;
 	}
 	
 	
-	
-	public TrailFeatures delete(TrailFeatures trailFeature) throws SQLException {
-		String deleteTrailFeature = "DELETE FROM TrailFeatures WHERE TrailFeatureId=?;";
+	public TrailActivities delete(TrailActivities trailActivity) throws SQLException {
+		String deleteTrailActivity = "DELETE FROM TrailActivities WHERE TrailActivityId=?;";
 		Connection connection = null;
 		PreparedStatement deleteStmt = null;
 		try {
 			connection = connectionManager.getConnection();
-			deleteStmt = connection.prepareStatement(deleteTrailFeature);
-			deleteStmt.setInt(1, trailFeature.getTrailFeatureId());
+			deleteStmt = connection.prepareStatement(deleteTrailActivity);
+			deleteStmt.setInt(1, trailActivity.getTrailActivityId());
 			deleteStmt.executeUpdate();
 			return null;
 		} catch (SQLException e) {
