@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrailsDao {
   protected ConnectionManager connectionManager;
@@ -166,4 +168,49 @@ public class TrailsDao {
     }
     return null;
   }
+  
+  public List<Trails> getAllTrail() throws SQLException {
+	  List<Trails> trails= new ArrayList<Trails>();
+	  String selectAllTrail = "SELECT TrailId,TrailName,Area,City,State,Country,Latitude,Longitude,ElevationGain,Difficulty,RouteType "
+	        + "FROM Trails;";
+	  Connection connection = null;
+	  PreparedStatement selectStmt = null;
+	  ResultSet results = null;
+	  try {
+	    connection = connectionManager.getConnection();
+	    selectStmt = connection.prepareStatement(selectAllTrail);
+
+	    results = selectStmt.executeQuery();
+	
+	    while(results.next()) {
+	        Integer resultTrailId = results.getInt("TrailId");
+	        String trailName = results.getString("TrailName");
+	        String area = results.getString("Area");
+	        String city = results.getString("City");
+	        String state = results.getString("State");
+	        String country = results.getString("Country");
+	        Double latitude = results.getDouble("Latitude");
+	        Double longitude = results.getDouble("Longitude");
+	        Double elevationGain = results.getDouble("ElevationGain");
+	        String difficulty = results.getString("Difficulty");
+	        String routeType = results.getString("RouteType");
+	        Trails trail = new Trails(resultTrailId,trailName,area,city,state,country,latitude,longitude,elevationGain,Trails.DifficultyLevel.fromString(difficulty),Trails.RouteType.fromString(routeType));
+	        trails.add(trail);	        
+	        }
+	    return trails;
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	      throw e;
+	    } finally {
+	      if(connection != null) {
+	        connection.close();
+	      }
+	      if(selectStmt != null) {
+	        selectStmt.close();
+	      }
+	      if(results != null) {
+	        results.close();
+	      }
+	    }
+	  }
 }

@@ -140,6 +140,12 @@ public class Inserter {
 		interestedActivity = interestedActivitiesDao.create(interestedActivity4);
 		
 		//READ
+		// Trails
+		List<Trails> trails = trailsDao.getAllTrail();
+		for (Trails t:trails) {
+			System.out.format("Looping all trails: trailName:%s\n", t.getTrailName());
+		}
+		
 		
 		//TrailFeatures
 		TrailFeatures tf = trailFeaturesDao.getTrailFeatureById(1);

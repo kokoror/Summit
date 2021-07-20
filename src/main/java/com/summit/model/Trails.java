@@ -32,6 +32,10 @@ public class Trails {
         return null;
     }
     
+    public String toString() {
+        return this.level;
+     }
+    
   }
   
   
@@ -48,8 +52,13 @@ public class Trails {
           }
           return null;
       }
+      
+      public String toString() {
+          return this.type;
+       }
     }
 
+    
   public Trails(Integer trailId, String trailName, String area, String city, String state,
       String country, Double latitude, Double longitude, Double elevationGain,
       DifficultyLevel level, RouteType type) {
