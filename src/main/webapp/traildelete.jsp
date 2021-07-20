@@ -32,48 +32,22 @@
 	
 	
 	<main class="container mt-5">
-		<h1>All Trails</h1>
-	
-		
-		
-		<table border="1">
-		    <tr>
-		        <th>TrailName</th>
-		        <th>Area</th>
-		        <th>City</th>
-		        <th>State</th>
-		        <th>Country</th>
-		  <!--       <th>Latitude, Longitude</th>
-		        <th>ElevationGain</th> -->
-		        <th>Difficulty</th>
-		<!--         <th>RouteType</th>
-		        <th>Reviews</th>
-		        <th>Update</th>
-		        <th>Delete</th> -->
-		        <th>More Info</th>
-		    </tr>
-		    <c:forEach items="${trails}" var="trail" >
-		        <tr>
-		            <td><c:out value="${trail.getTrailName()}" /></td>
-		            <td><c:out value="${trail.getArea()}" /></td>
-		            <td><c:out value="${trail.getCity()}" /></td>
-		            <td><c:out value="${trail.getState()}" /></td>
-		            <td><c:out value="${trail.getCountry()}" /></td>
-		         <%--    <td><c:out value="(${trail.getLatitude()}, ${trail.getLongitude()})" /></td>
-		            <td><c:out value="${trail.getElevationGain()} km" /></td> --%>
-		            <td><c:out value="${trail.getLevel()}" /></td>
-		           <%--  <td><c:out value="${trail.getType()}" /></td> --%>
-		           
-		            
-		            
-<%-- 	 	            <td><a href="trailreviews?trailname=<c:out value="${trail.getTrailName()}"/>">Reviews</a></td>
-		            
-		            <td><a href="trailupdate?trailname=<c:out value="${trail.getTrailName()}"/>">Update</a></td>
-		            <td><a href="traildelete?trailname=<c:out value="${trail.getTrailName()}"/>">Delete</a></td> --%>
-		            <td><a href="traildetail?trailid=<c:out value="${trail.getTrailId()}"/>">Details</a></td>
-		        </tr>
-		    </c:forEach>
-		</table>
+		<h1>${messages.title}</h1>
+		<form action="traildelete?trailid=${trail.getTrailId()}" method="post">
+			<p>
+				<div <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
+					<p>TrailName: <c:out value="${trail.getTrailName()}" /></p>
+					<p>Are you sure you want to delete this trail?</p>
+				</div>
+			</p>
+			<p>
+				<span id="submitButton" <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
+					<input type="submit">
+				</span>
+			</p>
+		</form>
+		<br/><br/>
+        
 	</main>
 	
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

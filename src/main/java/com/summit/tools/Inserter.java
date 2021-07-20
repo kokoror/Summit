@@ -216,14 +216,14 @@ public class Inserter {
 //		System.out.format("24. Reading company with updated about : about:%s companyName:%s	 \n",
 //				co2.getAbout(), co2.getCompanyName());
 		
-		preferredFeaturesDao.delete(preferredFeature4);
-		interestedActivitiesDao.delete(interestedActivity4);
-		trailActivitiesDao.delete(trailActivity4);
-		trailFeaturesDao.delete(trailFeature4);
-		usersDao.delete(user3);
-		
-		activitiesDao.delete(activity1);
-		featuresDao.delete(feature1);
+//		preferredFeaturesDao.delete(preferredFeature4);
+//		interestedActivitiesDao.delete(interestedActivity4);
+//		trailActivitiesDao.delete(trailActivity4);
+//		trailFeaturesDao.delete(trailFeature4);
+//		usersDao.delete(user3);
+//		
+//		activitiesDao.delete(activity1);
+//		featuresDao.delete(feature1);
 	}
 }
 
