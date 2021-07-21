@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.summit.dal.UsersDao;
 import com.summit.model.Users;
 
-@WebServlet("/UserDelete")
+@WebServlet("/userdelete")
 
 public class UserDelete extends HttpServlet {
 protected UsersDao usersDao;
