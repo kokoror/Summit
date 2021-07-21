@@ -17,6 +17,10 @@ public class Users {
     this.state = state;
     this.country = country;
   }
+  
+  public Users(String username) {
+	  this.username = username;
+  }
 
   public String getUsername() {
     return username;

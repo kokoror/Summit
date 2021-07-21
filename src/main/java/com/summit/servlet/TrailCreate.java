@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/usercreate")
+@WebServlet("/trailcreate")
 public class TrailCreate extends HttpServlet {
 	
 	protected TrailsDao trailsDao;
@@ -71,6 +71,6 @@ public class TrailCreate extends HttpServlet {
 	        }
         }
         
-        req.getRequestDispatcher("/UserCreate.jsp").forward(req, resp);
+        req.getRequestDispatcher("/TrailCreate.jsp").forward(req, resp);
     }
 }
