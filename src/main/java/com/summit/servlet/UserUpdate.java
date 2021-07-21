@@ -2,6 +2,8 @@ package com.summit.servlet;
 
 import com.summit.dal.UsersDao;
 import com.summit.model.Users;
+
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -29,9 +31,22 @@ public class UserUpdate extends HttpServlet {
 		// Map for storing messages.
         Map<String, String> messages = new HashMap<String, String>();
         req.setAttribute("messages", messages);
-				String userName = req.getParameter	("username");
+		String userName = req.getParameter("username");
         //Just render the JSP.
-				req.setAttribute("username",userName);
+		if (userName == null || userName.trim().isEmpty()) {
+            messages.put("success", "Please enter a valid UserName.");
+        } else {
+        	try {
+        		Users user = usersDao.getUserByUserName(userName);
+        		if(user == null) {
+        			messages.put("success", "UserName does not exist.");
+        		}
+        		req.setAttribute("Users", user);
+        	} catch (SQLException e) {
+				e.printStackTrace();
+				throw new IOException(e);
+	        }
+        }
         req.getRequestDispatcher("/userupdate.jsp").forward(req, resp);
 	}
 	
@@ -43,7 +58,7 @@ public class UserUpdate extends HttpServlet {
         req.setAttribute("messages", messages);
 
         // Retrieve and validate name.
-        String userName = req.getParameter	("username");
+        String userName = req.getParameter("username");
         if (userName == null || userName.trim().isEmpty()) {
             messages.put("success", "Invalid UserName");
         } else {
@@ -54,8 +69,8 @@ public class UserUpdate extends HttpServlet {
         	String country = req.getParameter("country");
 	        try {
 	        	// Exercise: parse the input for StatusLevel.
-	        	Users user = new Users(userName, password, city, state, country);
-	        	user = usersDao.update(user);
+	        	Users user = usersDao.getUserByUserName(userName);
+	        	user = usersDao.update(user,password,city,state,country);
 	        	messages.put("success", "Successfully updated " + userName);
 	        } catch (SQLException e) {
 				e.printStackTrace();

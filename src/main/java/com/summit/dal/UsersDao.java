@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-//import javax.xml.registry.infomodel.User;
 
 public class UsersDao {
   protected ConnectionManager connectionManager;
@@ -76,10 +75,10 @@ public class UsersDao {
    * Save the Users instance by storing it in your MySQL instance.
    * This runs a INSERT statement.
    */
-  public Users update(Users user) throws SQLException {
+  public Users update(Users user, String newPassword, String newCity, String newState, String newCountry) throws SQLException {
     Users select_user = getUserByUserName(user.getUsername());
     String insertUser = "UPDATE users SET\n"
-        + "UserName = ?,Password = ?,City=?,State=?,Country=?\n"
+        + "Password = ?,City=?,State=?,Country=?\n"
         + "WHERE UserName = ?;";
     Connection connection = null;
     PreparedStatement insertStmt = null;
@@ -92,12 +91,12 @@ public class UsersDao {
       // http://docs.oracle.com/javase/7/docs/api/java/sql/PreparedStatement.html
       // For nullable fields, you can check the property first and then call setNull()
       // as applicable.
-      insertStmt.setString(1, user.getUsername());
-      insertStmt.setString(2, user.getPassword()==""?select_user.getPassword():user.getPassword());
-      insertStmt.setString(3, user.getCity()==""?select_user.getCity():user.getCity());
-      insertStmt.setString(4, user.getState()==""?select_user.getState():user.getState());
-      insertStmt.setString(5, user.getCountry()==""?select_user.getCountry():user.getCountry());
-      insertStmt.setString(6, user.getUsername());
+      //insertStmt.setString(1, user.getUsername());
+      insertStmt.setString(1, newPassword);
+      insertStmt.setString(2, newCity);
+      insertStmt.setString(3, newState);
+      insertStmt.setString(4, newCountry);
+      insertStmt.setString(5, user.getUsername());
       // Note that we call executeUpdate(). This is used for a INSERT/UPDATE/DELETE
       // statements, and it returns an int for the row counts affected (or 0 if the
       // statement returns nothing). For more information, see:
@@ -108,6 +107,10 @@ public class UsersDao {
       // updated before returning to the caller.
       // Note 2: there are no auto-generated keys, so no update to perform on the
       // input param users.
+      user.setPassword(newPassword);
+      user.setCity(newCity);
+      user.setState(newState);
+      user.setCountry(newCountry);
       return user;
     } catch (SQLException e) {
       e.printStackTrace();
