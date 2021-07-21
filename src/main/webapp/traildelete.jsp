@@ -23,7 +23,7 @@
 	      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 	        <div class="navbar-nav">
 	          <a class="nav-link" aria-current="page" href="trails">Home</a>
-	          <a class="nav-link" href="users">Users</a>
+	          <a class="nav-link" href="displayusers">Users</a>
 	          <a class="nav-link" href="trailcreate">New Trail</a>
 	        </div>
 	      </div>
