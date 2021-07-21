@@ -23,7 +23,7 @@
 	      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 	        <div class="navbar-nav">
 	          <a class="nav-link" aria-current="page" href="trails">Home</a>
-	          <a class="nav-link" href="users">Users</a>
+	          <a class="nav-link" href="displayusers">Users</a>
 	          <a class="nav-link" href="trailcreate">New Trail</a>
 	        </div>
 	      </div>
@@ -32,7 +32,7 @@
 	
 	<main class="container mt-5">
 		<h1>${messages.title}</h1>
-		<form action="UserDelete?username=${user.getUsername()}" method="post">
+		<form action="userdelete?username=${user.getUsername()}" method="post">
 			<p>
 				<div <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
 					<p>UserName: <c:out value="${user.getUsername()}" /></p>
