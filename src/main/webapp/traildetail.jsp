@@ -32,65 +32,57 @@
 	
 	
 	<main class="container mt-5">
-		<h1><c:out value="${trail.getTrailName()}"/></h1>
-		
-		<table border="1">
-		    <tr>
-		        <th>TrailName</th>
-		        <th>Area</th>
-		        <th>City</th>
-		        <th>State</th>
-		        <th>Country</th>
- 		        <th>Latitude, Longitude</th>
-		        <th>ElevationGain</th>
-		        <th>Difficulty</th>
-	            <th>RouteType</th>
-		        <th>Delete</th>
+
+		<div class="card mb-3" style="max-width: 540px;">
+		  <div class="row g-0">
+		    <div class="col-md-6">
+		      <img src="https://source.unsplash.com/collection/2251735/2000x2200" class="img-fluid rounded-start" alt="...">
+		    </div>
+		    <div class="col-md-6">
+		      <div class="card-body">
+		        <h5 class="card-title"><c:out value="${trail.getTrailName()}"/></h5>
 		        
-	    </tr>
-
-	        <tr>
-	            <td><c:out value="${trail.getTrailName()}" /></td>
-	            <td><c:out value="${trail.getArea()}" /></td>
-	            <td><c:out value="${trail.getCity()}" /></td>
-	            <td><c:out value="${trail.getState()}" /></td>
-	            <td><c:out value="${trail.getCountry()}" /></td>
-	            <td><c:out value="(${trail.getLatitude()}, ${trail.getLongitude()})" /></td>
-	            <td><c:out value="${trail.getElevationGain()} km" /></td>
-	            <td><c:out value="${trail.getLevel()}" /></td>
-	            <td><c:out value="${trail.getType()}" /></td>
-	            
-	            <td><a href="traildelete?trailid=<c:out value="${trail.getTrailId()}"/>">Delete</a></td>
-	            
-	        </tr>
-	        
-
-	        
-		</table>
+		        <p class="card-text"><small class="text-muted"> <c:out value="${trail.getArea()}" />, <c:out value="${trail.getCity()}" />, <c:out value="${trail.getState()}" />, <c:out value="${trail.getCountry()}" /> </small></p>
+		      	<p class="card-text">Latitude, Longitude <c:out value="(${trail.getLatitude()}, ${trail.getLongitude()})" /></p>
+		      	<p class="card-text">ElevationGain <c:out value="${trail.getElevationGain()} km" /></p>
+		      	<p class="card-text">Difficulty <c:out value="${trail.getLevel()}" /></p>
+		      	<p class="card-text">RouteType <c:out value="${trail.getType()}" /></p>
+		      	<a href="traildelete?trailid=<c:out value="${trail.getTrailId()}"/>">Delete</a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 		
 		<hr> 
 		
         <h5>Features</h5>
         <c:forEach items="${trailFeatures}" var="trailfeature" >
-        	<span><c:out value="${trailfeature.getFeature().getFeatureTag()}  " /></span>        
+<%--         	<span><c:out value="${trailfeature.getFeature().getFeatureTag()}  " /></span>   --%>
+        	<a href="trails?featureid=${trailfeature.getFeature().getFeatureId()}">${trailfeature.getFeature().getFeatureTag()}</a>        
         </c:forEach>
         
         <hr> 
 	        
         <h5>Activities</h5>
         <c:forEach items="${trailActivities}" var="trailactivity" >
-        	<span><c:out value="${trailactivity.getActivity().getActivityTag()}  " /></span>    
+<%--         	<span><c:out value="${trailactivity.getActivity().getActivityTag()}  " /></span>  --%>
+        	<a href="trails?activityid=${trailactivity.getActivity().getActivityId()}">${trailactivity.getActivity().getActivityTag()}</a>    
         </c:forEach>
         
         <hr> 
         
         <h5>Reviews</h5>
         <c:forEach items="${reviews}" var="review" >
-        	<p><c:out value="${review.getRating()}  --- ${review.getUser().getUsername()}" /> </p>
+        	<%-- <p><c:out value="${review.getRating()}  --- ${review.getUser().getUsername()}" /> </p> --%>
+        	
+        	<p><c:out value="Rating: ${review.getRating()}" /> --- <a href="users?username=<c:out value="${review.getUser().getUsername()}"/>">${review.getUser().getUsername()}</a> </p>
         	<p><c:out value="${review.getContent()}  " /> </p>
         	
         	<hr> 
         </c:forEach>
+        
+        
+
         
 	</main>
 	

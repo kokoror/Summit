@@ -43,13 +43,7 @@
 		        <th>City</th>
 		        <th>State</th>
 		        <th>Country</th>
-		  <!--       <th>Latitude, Longitude</th>
-		        <th>ElevationGain</th> -->
 		        <th>Difficulty</th>
-		<!--         <th>RouteType</th>
-		        <th>Reviews</th>
-		        <th>Update</th>
-		        <th>Delete</th> -->
 		        <th>More Info</th>
 		    </tr>
 		    <c:forEach items="${trails}" var="trail" >
@@ -59,17 +53,7 @@
 		            <td><c:out value="${trail.getCity()}" /></td>
 		            <td><c:out value="${trail.getState()}" /></td>
 		            <td><c:out value="${trail.getCountry()}" /></td>
-		         <%--    <td><c:out value="(${trail.getLatitude()}, ${trail.getLongitude()})" /></td>
-		            <td><c:out value="${trail.getElevationGain()} km" /></td> --%>
 		            <td><c:out value="${trail.getLevel()}" /></td>
-		           <%--  <td><c:out value="${trail.getType()}" /></td> --%>
-		           
-		            
-		            
-<%-- 	 	            <td><a href="trailreviews?trailname=<c:out value="${trail.getTrailName()}"/>">Reviews</a></td>
-		            
-		            <td><a href="trailupdate?trailname=<c:out value="${trail.getTrailName()}"/>">Update</a></td>
-		            <td><a href="traildelete?trailname=<c:out value="${trail.getTrailName()}"/>">Delete</a></td> --%>
 		            <td><a href="traildetail?trailid=<c:out value="${trail.getTrailId()}"/>">Details</a></td>
 		        </tr>
 		    </c:forEach>

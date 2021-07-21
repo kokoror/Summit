@@ -34,11 +34,13 @@ public class TrailDelete extends HttpServlet {
 
         // Retrieve and validate name.
         String trailIdStr = req.getParameter("trailid");
-        int trailId = Integer.parseInt(trailIdStr);
+        
         
         if (trailIdStr == null || trailIdStr.trim().isEmpty()) {
-            messages.put("success", "Please enter a valid trail id.");
+            messages.put("title", "Not a valid trail.");
+            messages.put("disableSubmit", "true");
         } else {
+        	int trailId = Integer.parseInt(trailIdStr);
         	// display the TrailName
         	Trails trail = null;
 			try {
@@ -47,7 +49,9 @@ public class TrailDelete extends HttpServlet {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			
 			req.setAttribute("trail", trail);
+				
         }
         
         req.getRequestDispatcher("/traildelete.jsp").forward(req, resp);
@@ -63,11 +67,12 @@ public class TrailDelete extends HttpServlet {
 
         // Retrieve and validate name.
         String trailIdStr = req.getParameter("trailid");
-        int trailId = Integer.parseInt(trailIdStr);
+        
         
         if (trailIdStr == null || trailIdStr.trim().isEmpty()) {
             messages.put("success", "Please enter a valid trail id.");
         } else {
+        	int trailId = Integer.parseInt(trailIdStr);
         	// Delete the Trail
         	Trails trail = null;
 			try {
@@ -80,7 +85,7 @@ public class TrailDelete extends HttpServlet {
 	        	trail = trailsDao.delete(trail);
 	        	// Update the message.
 		        if (trail == null) {
-		            messages.put("title", "Successfully deleted " + trail.getTrailName());
+		            messages.put("title", "Successfully deleted ");
 		            messages.put("disableSubmit", "true");
 		            req.setAttribute("trail", trail);
 		        } else {
