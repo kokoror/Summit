@@ -37,22 +37,65 @@ import javax.servlet.http.HttpServletResponse;
 public class AllTrails extends HttpServlet {
 	
 	protected TrailsDao trailsDao;
+	protected TrailFeaturesDao trailFeaturesDao;
+	protected TrailActivitiesDao trailActivitiesDao;
 	
 	@Override
 	public void init() throws ServletException {
 		trailsDao = TrailsDao.getInstance();
+		trailFeaturesDao = TrailFeaturesDao.getInstance();
+		trailActivitiesDao = TrailActivitiesDao.getInstance();
 	}
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		List<Trails> trails = new ArrayList<Trails>();
-		try {
-			trails = trailsDao.getAllTrail();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		List<TrailFeatures> trailFeatures = new ArrayList<>();
+		List<TrailActivities> trailActivities = new ArrayList<>();
+		
+		if (req.getParameter("featureid") != null) {
+			int featureId = Integer.parseInt(req.getParameter("featureid"));
+			
+			try {
+				trailFeatures= trailFeaturesDao.getTrailFeatureByFeatureId(featureId);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			for (TrailFeatures tf: trailFeatures) {
+				trails.add(tf.getTrail());
+			}
+			
+		} else if (req.getParameter("activityid") != null ) {
+			int activityId = Integer.parseInt(req.getParameter("activityid"));
+			
+			try {
+				trailActivities= trailActivitiesDao.getTrailActivityByActivityId(activityId);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			for (TrailActivities ta: trailActivities) {
+				trails.add(ta.getTrail());
+			}
+			
+		} else {
+			
+			try {
+				trails = trailsDao.getAllTrail();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
+		
+		
+		
+
         req.setAttribute("trails", trails);
         
         req.getRequestDispatcher("/trails.jsp").forward(req, resp);
