@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.xml.registry.infomodel.User;
 
 public class UsersDao {
   protected ConnectionManager connectionManager;
@@ -45,6 +46,58 @@ public class UsersDao {
       insertStmt.setString(4, user.getState());
       insertStmt.setString(5, user.getCountry());
 
+      // Note that we call executeUpdate(). This is used for a INSERT/UPDATE/DELETE
+      // statements, and it returns an int for the row counts affected (or 0 if the
+      // statement returns nothing). For more information, see:
+      // http://docs.oracle.com/javase/7/docs/api/java/sql/PreparedStatement.html
+      insertStmt.executeUpdate();
+
+      // Note 1: if this was an UPDATE statement, then the users fields should be
+      // updated before returning to the caller.
+      // Note 2: there are no auto-generated keys, so no update to perform on the
+      // input param users.
+      return user;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+      if(connection != null) {
+        connection.close();
+      }
+      if(insertStmt != null) {
+        insertStmt.close();
+      }
+    }
+  }
+
+
+
+  /**
+   * Save the Users instance by storing it in your MySQL instance.
+   * This runs a INSERT statement.
+   */
+  public Users update(Users user) throws SQLException {
+    Users select_user = getUserByUserName(user.getUsername());
+    String insertUser = "UPDATE users SET\n"
+        + "UserName = ?,Password = ?,City=?,State=?,Country=?\n"
+        + "WHERE UserName = ?;";
+    Connection connection = null;
+    PreparedStatement insertStmt = null;
+    try {
+      connection = connectionManager.getConnection();
+      insertStmt = connection.prepareStatement(insertUser);
+      // PreparedStatement allows us to substitute specific types into the query template.
+      // For an overview, see:
+      // http://docs.oracle.com/javase/tutorial/jdbc/basics/prepared.html.
+      // http://docs.oracle.com/javase/7/docs/api/java/sql/PreparedStatement.html
+      // For nullable fields, you can check the property first and then call setNull()
+      // as applicable.
+      insertStmt.setString(1, user.getUsername());
+      insertStmt.setString(2, user.getPassword()==""?select_user.getPassword():user.getPassword());
+      insertStmt.setString(3, user.getCity()==""?select_user.getCity():user.getCity());
+      insertStmt.setString(4, user.getState()==""?select_user.getState():user.getState());
+      insertStmt.setString(5, user.getCountry()==""?select_user.getCountry():user.getCountry());
+      insertStmt.setString(6, user.getUsername());
       // Note that we call executeUpdate(). This is used for a INSERT/UPDATE/DELETE
       // statements, and it returns an int for the row counts affected (or 0 if the
       // statement returns nothing). For more information, see:

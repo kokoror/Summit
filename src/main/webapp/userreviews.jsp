@@ -36,7 +36,7 @@
 		<div class="card mb-3 mx-auto" style="max-width: 660px;">
 		  <div class="row g-0">
 		    <div class="col-md-6">
-		      <img src="https://www.istockphoto.com/photo/young-woman-sitting-by-window-wall-types-on-laptop-gm1245239346-363067796" class="img-fluid rounded-start" alt="...">
+		      <img src="https://i.pinimg.com/474x/60/13/a3/6013a33f806d8d74f43ee2eb565ff4dc.jpg" class="img-fluid rounded-start" alt="...">
 		    </div>
 		    <div class="col-md-6">
 		      <div class="card-body">
@@ -51,7 +51,7 @@
 		</div>
 
         
-        <h5>Reviews</h5>
+        <h5>Reviews from this user</h5>
 
         <c:forEach items="${reviews}" var="review" >
         	<%-- <p><c:out value="${review.getRating()}  --- ${review.getUser().getUsername()}" /> </p> --%>
