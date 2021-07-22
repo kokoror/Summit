@@ -77,7 +77,7 @@
         	<%-- <p><c:out value="${review.getRating()}  --- ${review.getUser().getUsername()}" /> </p> --%>
         	<div class="card">
 		  		<div class="card-body">
-        			<p class="card-text"><c:out value="Rating: ${review.getRating()}" /> by <a href="users?username=<c:out value="${review.getUser().getUsername()}"/>">${review.getUser().getUsername()}</a> </p>
+        			<p class="card-text"><c:out value="Rating: ${review.getRating()}" /> by <a href="userreviews?username=<c:out value="${review.getUser().getUsername()}"/>">${review.getUser().getUsername()}</a> </p>
         			<p class="card-text"><c:out value="${review.getContent()}  " /> </p>
         			<p class="card-text"><small class="text-muted">Created at <c:out value="${review.getCreated()}  " /></small> </p>
         		</div>
